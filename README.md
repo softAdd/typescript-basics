@@ -126,3 +126,75 @@ let n: null = null;
 // эти типы помогают избегать многих ошибок. Можно использовать объединение:
 let str: string | null | undefined = "str";
 ```
+
+**Классы**
+
+```ts
+class User {
+    public name: string; // по умолчанию также public
+    private isTeacher: boolean; // недоступна снаружи класса
+    protected age: number = 30; // можно обращаться в наследуемых классах
+
+    constructor(name: string) {
+        this.name = name;
+    }
+    // можно поставить и методы private/protected
+    public getAge(): number {
+        return this.age;
+    }
+}
+// User { name: 'username', age: 30, __proto__: Object }
+const user = new User('username');
+```
+
+```ts
+// абстрактные классы, нужны для того, чтобы от них наследовались. С их помощью нельзя создавать объекты
+abstract class Car {
+    model: string;
+    year: number = 2010;
+
+    getCarYear() {
+        return this.year; 
+    }
+    // метод, который необходимо реализовать в классе-наследнике
+    abstract logInfo(info: string): void;
+}
+```
+
+**Интерфейсы**
+
+```ts
+interface ILength {
+    length: number;
+}
+
+function getLength(variable: { length: number }): void {
+    console.log(variable.length);
+}
+
+function getLengthWithInterface(variable: ILength): void {
+    console.log(variable.length);
+}
+// интерфейсы также могут принимать необязательные параметры
+interface IUser {
+    name: string;
+    age?: number;
+    logInfo(info: string): void;
+}
+
+const user: IUser = {
+    name: 'username',
+    logInfo(info: string) {
+        console.log('Info', info);
+    }
+}
+// можно также создавать классы по интерфейсам
+class User implements IUser {
+    name: string = 'username';
+    age: number = 20;
+
+    logInfo(info: string) {
+        console.log(info);
+    }
+}
+```
